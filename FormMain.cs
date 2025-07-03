@@ -34,11 +34,13 @@ namespace PacMan
 
             pacman = new(tileSize * 10, tileSize * 9, tileSize);
             enemyList = new List<Enemy>();
-            enemyList.Add(new Enemy(8 * tileSize, 3 * tileSize, 3, Color.Red, tileSize));
+            enemyList.Add(new Enemy(8 * tileSize, 3 * tileSize, 5, Color.Red, tileSize));
+            enemyList.Add(new Enemy(9 * tileSize, 3 * tileSize, 3, Color.Blue, tileSize));
+            enemyList.Add(new Enemy(10 * tileSize, 3 * tileSize, 3, Color.Green, tileSize));
             Draw();
 
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 64;
+            timer.Interval = 32;
             timer.Tick += Loop;
             timer.Start();
         }

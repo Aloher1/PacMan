@@ -97,7 +97,7 @@ public class Enemy
                 break;
             case DirectionType.None:
                 Random random = new Random();
-                direction = (DirectionType)random.Next(0, 3);
+                direction = (DirectionType)random.Next(0, 4);
                 break;
         }
         Direction = direction;
