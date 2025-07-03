@@ -8,7 +8,6 @@ public class PacMan
     private int _x;
     private int _y;
 
-
     public int GetX => _x;
     public int GetY => _y;
     public int GetSide => _side;
@@ -52,19 +51,19 @@ public class PacMan
         switch (direction)
         {
             case DirectionType.Right:
-                if (!map.IsWall(_x + tileSize, _y))
+                if (!map.IsWall(_x + tileSize, _y) && !map.IsWall(_x + tileSize, _y + tileSize - 1))
                     _x += _speed;
                 break;
             case DirectionType.Left:
-                if (!map.IsWall(_x - _speed, _y))
+                if (!map.IsWall(_x - _speed, _y) && !map.IsWall(_x - _speed, _y + tileSize - 1))
                     _x -= _speed;
                 break;
             case DirectionType.Up:
-                if (!map.IsWall(_x, _y - _speed))
+                if (!map.IsWall(_x, _y - _speed) && !map.IsWall(_x + tileSize - 1, _y - _speed))
                     _y -= _speed;
                 break;
             case DirectionType.Down:
-                if (!map.IsWall(_x, _y + tileSize ))
+                if (!map.IsWall(_x, _y + tileSize ) && !map.IsWall(_x + tileSize - 1, _y + tileSize))
                     _y += _speed;
                 break;
         }

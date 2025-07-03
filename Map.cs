@@ -26,13 +26,13 @@ public class Map
 
     public bool IsWall(int x, int y)
     {
+        if (x < 0 || y < 0 || x >= map.GetLength(1) * tileSize || y >= map.GetLength(0) * tileSize)
+            return true;
+
         int i = y / tileSize;
         int j = x / tileSize;
-        if (map[i, j] == '#')
-        {
-            return true;
-        }
-        return false;
+
+        return map[i, j] == '#';
     }
 
     private bool LoadMap(string filename)

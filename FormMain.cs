@@ -1,6 +1,7 @@
 using System.CodeDom;
 using System.Drawing;
 using System.Net.Http.Headers;
+using System.Windows.Forms.Automation;
 
 namespace PacMan
 {
@@ -11,9 +12,10 @@ namespace PacMan
         Map map;
         PacMan pacman;
         List<Enemy> enemyList;
-        System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer timer;
         int dots = 0;
         int score = 0;
+        int lives = 3;
         bool gameOver = false;
 
         public FormMain()
@@ -26,22 +28,22 @@ namespace PacMan
         {
             score = 0;
             dots = 0;
+            lives = 3;
             gameOver = false;
             map = new();
 
+            labelGameOver.Visible = false;
             map.map[startY, startX] = ' ';
             dots++;
 
-            pacman = new(tileSize * 10, tileSize * 9, tileSize);
-            enemyList = new List<Enemy>();
-            enemyList.Add(new Enemy(8 * tileSize, 3 * tileSize, 5, Color.Red, tileSize));
-            enemyList.Add(new Enemy(9 * tileSize, 3 * tileSize, 3, Color.Blue, tileSize));
-            enemyList.Add(new Enemy(10 * tileSize, 3 * tileSize, 3, Color.Green, tileSize));
-            Draw();
+            Reset();
 
-            timer = new System.Windows.Forms.Timer();
-            timer.Interval = 32;
-            timer.Tick += Loop;
+            if (timer == null)
+            {
+                timer = new System.Windows.Forms.Timer();
+                timer.Interval = 32;
+                timer.Tick += Loop;
+            }
             timer.Start();
         }
 
@@ -50,9 +52,32 @@ namespace PacMan
             pacman.MoveTo(pacman.Direction, map);
             foreach (Enemy enemy in enemyList)
             {
-                enemy.MoveTo(enemy.Direction, map);
+                float dx = enemy.GetX - pacman.GetX;
+                float dy = enemy.GetY - pacman.GetY;
+                if (dx == 0) 
+                {
+                    if (dy < 0) enemy.MoveTo(DirectionType.Down, map);
+                    else        enemy.MoveTo(DirectionType.Up, map);
+                }
+                else if (dy == 0)
+                {
+                    if (dx < 0) enemy.MoveTo(DirectionType.Right, map);
+                    else enemy.MoveTo(DirectionType.Left, map);
+                }
+                else enemy.MoveTo(enemy.Direction, map);
             }
             UpdateMap();
+        }
+
+        private void Reset()
+        {
+            enemyList = new List<Enemy>();
+            enemyList.Add(new Enemy(8 * tileSize, 3 * tileSize, 5, Color.Red, tileSize));
+            enemyList.Add(new Enemy(9 * tileSize, 3 * tileSize, 3, Color.Blue, tileSize));
+            enemyList.Add(new Enemy(10 * tileSize, 3 * tileSize, 3, Color.Green, tileSize));
+            pacman = new(tileSize * 10, tileSize * 9, tileSize);
+            toolStripStatusLabelLives.Text = "Lives: " + lives;
+            Draw();
         }
 
         private void UpdateMap()
@@ -66,7 +91,12 @@ namespace PacMan
                 score += 10;
             }
             toolStripStatusLabelScore.Text = "Score: " + score;
-            if (dots >= map.DotCount)
+            if (IsCollision(enemyList, pacman))
+            {
+                lives--;
+                Reset();
+            }
+            if (dots >= map.DotCount || lives < 0)
             {
                 gameOver = true;
             }
@@ -85,7 +115,7 @@ namespace PacMan
             if (gameOver)
             {
                 timer.Stop();
-                // s
+                labelGameOver.Visible = true;
             }
         }
 
@@ -98,6 +128,20 @@ namespace PacMan
                     enemy.Draw(g);
                 }
             }
+        }
+
+        private bool IsCollision(List<Enemy> enemies, PacMan player)
+        {
+            foreach(Enemy enemy in enemies)
+            {
+                if (enemy == null)
+                    return false;
+                float dx = Math.Abs(enemy.GetX - player.GetX);
+                float dy = Math.Abs(enemy.GetY - player.GetY);
+                if (dx < player.GetSide && dy < player.GetSide)
+                    return true;
+            }
+            return false;
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
