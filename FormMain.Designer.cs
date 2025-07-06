@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             pictureBoxBoard = new PictureBox();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabelScore = new ToolStripStatusLabel();
@@ -41,7 +42,7 @@
             // 
             pictureBoxBoard.BackColor = Color.Black;
             pictureBoxBoard.Dock = DockStyle.Bottom;
-            pictureBoxBoard.Location = new Point(0, 22);
+            pictureBoxBoard.Location = new Point(0, 26);
             pictureBoxBoard.MaximumSize = new Size(600, 600);
             pictureBoxBoard.MinimumSize = new Size(600, 600);
             pictureBoxBoard.Name = "pictureBoxBoard";
@@ -53,10 +54,11 @@
             // 
             statusStrip1.BackColor = Color.Black;
             statusStrip1.Dock = DockStyle.Top;
+            statusStrip1.ImageScalingSize = new Size(20, 20);
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelScore, toolStripStatusLabelLives });
             statusStrip1.Location = new Point(0, 0);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(600, 22);
+            statusStrip1.Size = new Size(598, 26);
             statusStrip1.TabIndex = 1;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -64,14 +66,14 @@
             // 
             toolStripStatusLabelScore.ForeColor = Color.FromArgb(128, 255, 255);
             toolStripStatusLabelScore.Name = "toolStripStatusLabelScore";
-            toolStripStatusLabelScore.Size = new Size(48, 17);
+            toolStripStatusLabelScore.Size = new Size(61, 20);
             toolStripStatusLabelScore.Text = "Score: 0";
             // 
             // toolStripStatusLabelLives
             // 
             toolStripStatusLabelLives.ForeColor = Color.FromArgb(128, 255, 255);
             toolStripStatusLabelLives.Name = "toolStripStatusLabelLives";
-            toolStripStatusLabelLives.Size = new Size(45, 17);
+            toolStripStatusLabelLives.Size = new Size(56, 20);
             toolStripStatusLabelLives.Text = "Lives: 3";
             // 
             // labelGameOver
@@ -82,7 +84,7 @@
             labelGameOver.ForeColor = Color.Yellow;
             labelGameOver.Location = new Point(224, 265);
             labelGameOver.Name = "labelGameOver";
-            labelGameOver.Size = new Size(152, 42);
+            labelGameOver.Size = new Size(189, 56);
             labelGameOver.TabIndex = 2;
             labelGameOver.Text = "G A M E  O V E R\r\nPress \"esc\" to restart\r\n";
             labelGameOver.TextAlign = ContentAlignment.MiddleCenter;
@@ -90,16 +92,16 @@
             // 
             // FormMain
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(600, 622);
+            AutoScaleMode = AutoScaleMode.None;
+            ClientSize = new Size(598, 626);
             Controls.Add(labelGameOver);
             Controls.Add(statusStrip1);
             Controls.Add(pictureBoxBoard);
-            MaximumSize = new Size(616, 661);
-            MinimumSize = new Size(616, 661);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximumSize = new Size(616, 673);
+            MinimumSize = new Size(616, 673);
             Name = "FormMain";
-            Text = "Form1";
+            Text = "Pac-Man";
             KeyDown += FormMain_KeyDown;
             ((System.ComponentModel.ISupportInitialize)pictureBoxBoard).EndInit();
             statusStrip1.ResumeLayout(false);
