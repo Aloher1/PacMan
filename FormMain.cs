@@ -21,6 +21,7 @@ namespace PacMan
         public FormMain()
         {
             InitializeComponent();
+            
             StartGame();
         }
 
@@ -28,7 +29,6 @@ namespace PacMan
         {
             score = 0;
             dots = 0;
-            lives = 3;
             gameOver = false;
             map = new();
 
@@ -105,18 +105,18 @@ namespace PacMan
 
         private void Draw()
         {
+            if (gameOver)
+            {
+                timer.Stop();
+                labelGameOver.Visible = true;
+            }
+
             Bitmap bitmap = new Bitmap(pictureBoxBoard.Width, pictureBoxBoard.Height);
             Graphics g = Graphics.FromImage(bitmap);
             map.DrawMap(g);
             pacman.Draw(g);
             DrawEnemies(enemyList, g);
             pictureBoxBoard.Image = bitmap;
-            
-            if (gameOver)
-            {
-                timer.Stop();
-                labelGameOver.Visible = true;
-            }
         }
 
         private void DrawEnemies(List<Enemy> enemies, Graphics g)
